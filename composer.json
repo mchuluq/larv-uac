@@ -20,6 +20,7 @@
         }
     ],
     "require": {
+        "laravel/passport": "^8.0",
         "illuminate/auth": "~5.7|~6.0"
     },
     "require-dev": {

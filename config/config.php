@@ -58,10 +58,7 @@ return array(
     
     'cache_driver' => 'file',
     'cache_ttl' => 604800,
-
     'object_storage_driver' => 'file',
-
-
     'oauth2_scopes' => [
         'akademik' => 'Nomor Induk Pegawai / Mahasiswa, Prodi, Fakultas',
         'account' =>  'Username, Email, Avatar, No. HP',

@@ -39,9 +39,11 @@ class User extends Model implements AuthenticatableContract{
     public $incrementing = false;
     protected $keyType = 'string';
 
-
     protected $fillable = [
-        'user_id','username','name', 'email', 'password','fullname','phone','avatar_url','is_disabled','user_type','user_code_number','group_name','settings',
+        'user_id','username','name', 'email', 'password','fullname','phone','avatar_url','is_disabled','user_type','user_code_number','group_name','settings','google2fa_secret'
+    ];
+    protected $guarded = [
+        'roles','permissions','access_data',
     ];
 
     protected $hidden = [
@@ -50,6 +52,7 @@ class User extends Model implements AuthenticatableContract{
         'created_at',
         'updated_at',
         'remember_token',
+        'google2fa_secret'
     ];
 
     protected $casts = [
@@ -108,5 +111,12 @@ class User extends Model implements AuthenticatableContract{
     }
     public function validateForPassportPasswordGrant($password){
         return password_verify($password, $this->password);
+    }
+
+    public function setGoogle2faSecretAttribute($value){
+         $this->attributes['google2fa_secret'] = encrypt($value);
+    }
+    public function getGoogle2faSecretAttribute($value){
+        return decrypt($value);
     }
 }

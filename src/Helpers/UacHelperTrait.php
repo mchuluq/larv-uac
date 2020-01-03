@@ -2,11 +2,8 @@
 
 namespace Mchuluq\Laravel\Uac\Helpers; 
 
-//use Mchuluq\Uac\Tools\Ip2location_lite as ip2l;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
-//use DeviceDetector\DeviceDetector;
-//use DeviceDetector\Parser\Device\DeviceParserAbstract;
 
 use Illuminate\Support\Arr;
 
@@ -57,48 +54,6 @@ Trait UacHelperTrait{
             return 'n-a';
         }
         return $text;
-    }
-
-    function getDevice(Request $req){
-        $ip_address = $req->server('REMOTE_ADDR');
-        $agent = $req->server('HTTP_USER_AGENT');
-        $ip2l_config = config('uac.ip2location');
-
-        $location = Cache::store(config('uac.cache_driver'))->rememberForever(self::key('ip2location_lite','getCity',$ip_address),function () use($ip_address,$ip2l_config) {
-            $ip2l = new ip2l($ip2l_config);
-            $get = $ip2l->getCity($ip_address);
-            return array(
-                'latitude'      => $get['latitude'],
-                'longitude'     => $get['longitude'],
-                'user_timezone' => $get['timezone'],
-                'country_code'  => $get['countryCode'],
-                'country_name'  => $get['countryName'],
-                'region_name'   => $get['regionName'],
-                'city_name'     => $get['cityName'],
-                'zip_code'      => $get['zipCode'],
-            );
-        });
-
-        $device = Cache::store(config('uac.cache_driver'))->rememberForever(self::key('device_agent',$agent),function () use($agent) {            
-            DeviceParserAbstract::setVersionTruncation(DeviceParserAbstract::VERSION_TRUNCATION_NONE);        
-            $dd = new DeviceDetector($agent);
-            $parse = $dd->parse();
-            $client = $dd->getClient();
-            $os = $dd->getOs();
-
-            return array(
-                'agent_string' => $agent,
-                'browser_name' => $client['name'].' - '.$client['short_name'],
-                'browser_version' => $client['version'],
-                'os_platform' => implode(' ',array($os['name'],$os['version'],$os['platform'])),
-                'is_mobile' => $dd->isMobile(),
-                'device_name' => $dd->getDeviceName(),
-                'device_brand' => $dd->getBrand(),
-                'device_model' => $dd->getModel(),
-            );
-        });
-
-        return array_merge($location,$device);
     }
 
     function generateKey(){

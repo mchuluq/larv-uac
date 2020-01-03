@@ -18,7 +18,7 @@ class CreateAccessDataTable extends Migration
             $table->string('user_id',36);
             $table->string('access_name',64);
             $table->string('access_type',64);
-            $table->timestamp('created_at');
+            $table->timestamp('created_at')->nullable();
         });
     }
 

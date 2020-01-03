@@ -19,7 +19,7 @@ class CreatePermissionsTable extends Migration
             $table->string('user_id',64)->nullable();
             $table->string('group_name',64)->nullable();
             $table->string('role_name',64)->nullable();
-            $table->timestamp('created_at');
+            $table->timestamp('created_at')->nullable();
         });
     }
 

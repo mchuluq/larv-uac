@@ -28,11 +28,6 @@ class UacServiceProvider extends ServiceProvider{
             return $guard;
         });
 
-        /*Auth::provider('database', function ($app, array $config) {
-            $connection = $app['db']->connection();
-            return new DatabaseUserProvider($connection, $app['hash'], $config['table']);
-        });*/
-
         Auth::provider('uac-user', function ($app, array $config) {
             return new UacUserProvider($app['hash'], $config['model']);
         });

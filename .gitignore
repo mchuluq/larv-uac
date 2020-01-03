@@ -1,2 +1,3 @@
 /vendor
 composer.lock
+/database/import_from_sister.sql

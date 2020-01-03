@@ -7,8 +7,6 @@ return array(
     'password_options' => [
         'cost' => 5
     ],    
-    // BCRYPT :: ['salt'=>'isi salt','cost'=>5], 
-    // ARGON :: ['memory_cost'=>PASSWORD_ARGON2_DEFAULT_MEMORY_COST,'time_cost'=>PASSWORD_ARGON2_DEFAULT_TIME_COST,'threads'=>PASSWORD_ARGON2_DEFAULT_THREADS]
 
     'gravatar_options' => [
         's' => 80,
@@ -49,12 +47,6 @@ return array(
             ''
         )
     ],
-    
-    'ip2location' => array(
-        'service' => 'http://api.ipinfodb.com',
-        'key' => '32d9497ded53a921a483c3e95db96c7a41a2f49e42f784e40d91a018fe762c03',
-        'version' => 'v3',
-    ),
     
     'cache_driver' => 'file',
     'cache_ttl' => 604800,

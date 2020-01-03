@@ -19,7 +19,6 @@ class UacUserProvider extends BaseUserProvider implements UserProvider{
         return Cache::store(config('uac.cache_driver'))->remember("user.$identifier", config('uac.cache_ttl'), function() use($identifier) {
             return parent::retrieveById($identifier);
         });
-        //return Cache::store(config('uac.cache_driver'))->get("user.$identifier") ?? parent::retrieveById($identifier);
     }
 
     public function retrieveByToken($identifier, $token){

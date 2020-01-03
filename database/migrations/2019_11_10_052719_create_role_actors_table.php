@@ -18,7 +18,7 @@ class CreateRoleActorsTable extends Migration
             $table->string('role_name',64);
             $table->string('user_id',64)->nullable();
             $table->string('group_name',64)->nullable();
-            $table->timestamp('created_at');
+            $table->timestamp('created_at')->nullable();
         });
     }
 

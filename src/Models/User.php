@@ -5,7 +5,7 @@ namespace Mchuluq\Laravel\Uac\Models;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 
-use Illuminate\Database\Eloquent\Model;
+use Mchuluq\Laravel\Uac\Models\BaseModel;
 
 use Laravel\Passport\HasApiTokens;
 
@@ -24,7 +24,7 @@ use Mchuluq\Laravel\Uac\Traits\HasAccessData;
 
 
 
-class User extends Model implements AuthenticatableContract{
+class User extends BaseModel implements AuthenticatableContract{
     
     use Notifiable;
     use Authenticatable;
@@ -38,6 +38,8 @@ class User extends Model implements AuthenticatableContract{
     protected $primaryKey = 'user_id';
     public $incrementing = false;
     protected $keyType = 'string';
+
+    public $timestamps = true;
 
     protected $fillable = [
         'user_id','username','name', 'email', 'password','fullname','phone','avatar_url','is_disabled','user_type','user_code_number','group_name','settings'

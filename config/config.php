@@ -28,5 +28,10 @@ return array(
         'account' =>  'Username, Email, Avatar, No. HP',
     ],
 
+    'task_psotion_list' => [
+        'main' => 'Main - Sidebar',
+        'top' => 'Top - Header',
+    ],
+
     'oauth2_default_scope' => ['account']
 );

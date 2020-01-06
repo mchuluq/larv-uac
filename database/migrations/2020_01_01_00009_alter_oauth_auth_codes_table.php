@@ -13,7 +13,7 @@ class AlterOauthAuthCodesTable extends Migration
      */
     public function up()
     {
-        Schema::create('oauth_auth_codes', function (Blueprint $table) {
+        Schema::table('oauth_auth_codes', function (Blueprint $table) {
             $table->string('user_id',36)->change();
             $table->string('client_id',64)->change();
         });

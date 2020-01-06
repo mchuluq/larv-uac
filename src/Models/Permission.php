@@ -2,7 +2,7 @@
 
 namespace Mchuluq\Laravel\Uac\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use Mchuluq\Laravel\Uac\Models\BaseModel;
 use Illuminate\Support\Facades\DB;
 
 use Mchuluq\Laravel\Uac\Helpers\UacHelperTrait as helper;
@@ -10,7 +10,7 @@ use Mchuluq\Laravel\Uac\Models\User;
 
 use Carbon\Carbon;
 
-class Permission extends Model{
+class Permission extends BaseModel{
 
     use helper;
 
@@ -21,7 +21,7 @@ class Permission extends Model{
         'group_name'
     );
 
-    public $timestamps = false;
+    public $timestamps = true;
 
     function assign($for,$uri_access,$type='user_id'){
         $data = array();

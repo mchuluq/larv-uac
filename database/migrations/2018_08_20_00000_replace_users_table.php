@@ -21,14 +21,14 @@ class ReplaceUsersTable extends Migration
             $table->string('fullname',255);
             $table->string('email',255)->unique();
             $table->string('phone',30)->nullable();
-            $table->text('avatar_url')->nullable();
+            $table->text('avatar_url',255)->nullable();
             $table->tinyInteger('is_disabled')->default(1);
             
             $table->string('user_type',64);
             $table->string('group_name',64);
             $table->string('user_code_number',20);
-
             $table->text('settings')->nullable();
+
             $table->timestamp('email_verified_at')->nullable();
             $table->timestamps();
         });

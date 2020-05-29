@@ -17,9 +17,9 @@ class UacUserProvider extends BaseUserProvider implements UserProvider{
 
     public function retrieveById($identifier){
         return Cache::store(config('uac.cache_driver'))->remember("user.$identifier", config('uac.cache_ttl'), function() use($identifier) {
-            // ->where('is_disabled','0')
             return parent::retrieveById($identifier);
         });
+        //return Cache::store(config('uac.cache_driver'))->get("user.$identifier") ?? parent::retrieveById($identifier);
     }
 
     public function retrieveByToken($identifier, $token){
@@ -34,11 +34,6 @@ class UacUserProvider extends BaseUserProvider implements UserProvider{
             }
         }
     }
-
-    //public function updateRememberToken(UserContract $user, $token){}
-    //public function retrieveByCredentials(array $credentials){}
-
-
 
     public function addRememberToken($identifier, $token, $expire){
         $model = $this->getModelByIdentifier($identifier);

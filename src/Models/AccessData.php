@@ -2,11 +2,11 @@
 
 namespace Mchuluq\Laravel\Uac\Models;
 
-use Mchuluq\Laravel\Uac\Models\BaseModel;
+use Illuminate\Database\Eloquent\Model;
 use Mchuluq\Laravel\Uac\Helpers\UacHelperTrait as helper;
 use Carbon\Carbon;
 
-class AccessData extends BaseModel{
+class AccessData extends Model{
 
     use helper;
 
@@ -17,8 +17,6 @@ class AccessData extends BaseModel{
         'access_name',
         'access_type'        
     );
-
-    public $timestamps = true;
 
      function assign($user_id,$access_name,$access_type){
         $data = array();

@@ -2,10 +2,10 @@
 
 namespace Mchuluq\Laravel\Uac\Models;
 
-use Mchuluq\Laravel\Uac\Models\BaseModel;
+use Illuminate\Database\Eloquent\Model;
 use Mchuluq\Laravel\Uac\Helpers\UacHelperTrait as helper;
 
-class Task extends BaseModel{
+class Task extends Model{
 
     use helper;
 
@@ -24,8 +24,6 @@ class Task extends BaseModel{
         'user_type',
         'description'
     );
-
-    public $timestamps = true;
 
     function getMenu(array $uri_access = array()){
         $query = $this->where('is_visible','1')->whereIn('uri_access',$uri_access)->orderBy('menu_order,position,group, label','ASC')->groupBy('uri_access')->get()->toArray();

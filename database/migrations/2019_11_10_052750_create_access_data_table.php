@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateRoleActorsTable extends Migration
+class CreateAccessDataTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,12 @@ class CreateRoleActorsTable extends Migration
      */
     public function up()
     {
-        Schema::create('role_actors', function (Blueprint $table) {
+        Schema::create('access_data', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('role_name',64);
-            $table->string('user_id',64)->nullable();
-            $table->string('group_name',64)->nullable();
-            $table->timestamps();
+            $table->string('user_id',36);
+            $table->string('access_name',64);
+            $table->string('access_type',64);
+            $table->timestamp('created_at')->nullable();
         });
     }
 
@@ -29,6 +29,6 @@ class CreateRoleActorsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('role_actors');
+        Schema::dropIfExists('access_data');
     }
 }

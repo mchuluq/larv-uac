@@ -2,12 +2,12 @@
 
 namespace Mchuluq\Laravel\Uac\Models;
 
-use Mchuluq\Laravel\Uac\Models\BaseModel;
+use Illuminate\Database\Eloquent\Model;
 use Mchuluq\Laravel\Uac\Helpers\UacHelperTrait as helper;
 
 use Carbon\Carbon;
 
-class RoleActor extends BaseModel{
+class RoleActor extends Model{
 
     use helper;
 
@@ -20,7 +20,7 @@ class RoleActor extends BaseModel{
         'group_name'
     );
 
-    public $timestamps = true;
+    public $timestamps = false;
 
     function assign($for,$role,$type='user_id'){
         $data = array();

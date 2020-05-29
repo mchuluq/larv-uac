@@ -12,6 +12,7 @@ class UacServiceProvider extends ServiceProvider{
     }
 
     public function boot(){
+        $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
         Auth::extend('uac', function ($app, $name, $config) {
             $provider = $app['auth']->createUserProvider($config['provider'] ?? null);
             $guard = new SessionGuard($name, $provider, $app['session.store'], request(), $config['expire'] ?? null);
@@ -27,38 +28,13 @@ class UacServiceProvider extends ServiceProvider{
             return $guard;
         });
 
+        /*Auth::provider('database', function ($app, array $config) {
+            $connection = $app['db']->connection();
+            return new DatabaseUserProvider($connection, $app['hash'], $config['table']);
+        });*/
+
         Auth::provider('uac-user', function ($app, array $config) {
             return new UacUserProvider($app['hash'], $config['model']);
         });
-
-
-        // load migration and command
-        if ($this->app->runningInConsole()) {
-            $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
-
-            include_once __DIR__.'/../console/GroupCommand.php';
-            include_once __DIR__.'/../console/RoleCommand.php';
-            include_once __DIR__.'/../console/TaskCommand.php';
-            include_once __DIR__.'/../console/UserCommand.php';
-            
-            $this->commands([
-                Console\GroupCommand::class,
-                Console\RoleCommand::class,
-                Console\TaskCommand::class,
-                Console\UserCommand::class
-            ]);
-        }
-
-        $this->publishes([
-            // Config
-            __DIR__.'/../config/config.php' => config_path('uac.php'),
-            
-            // Fields
-            __DIR__.'/../fields/groups.php' => app_path('fields/groups.php'),
-            __DIR__.'/../fields/roles.php' => app_path('fields/roles.php'),
-            __DIR__.'/../fields/tasks.php' => app_path('fields/tasks.php'),            
-            __DIR__.'/../fields/users.php' => app_path('fields/users.php'),            
-        ], 'larv-uac');
     }
-
 }

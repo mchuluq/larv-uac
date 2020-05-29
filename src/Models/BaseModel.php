@@ -11,8 +11,24 @@ class BaseModel extends Model {
 
     protected $field_config;
 
+    protected $data_to_validate = [];
+
+    function __construct(array $attributes = []){
+        parent::__construct($attributes);
+    }
+
+    public function fill(array $attributes){
+        $this->setDataToValidate($attributes);
+        return parent::fill($attributes);
+    }
+
+    public function setDataToValidate(array $attributes){
+        $this->data_to_validate = $attributes;
+        return $this;
+    }
+
     public function validate ($group=null,$fields = null){
-        $validator = Validator::make($this->attributes,$this->getValidationRules($this->attributes,$group,$fields));
+        $validator = Validator::make($this->data_to_validate,$this->getValidationRules($this->data_to_validate,$group,$fields));
         $validator->setAttributeNames($this->fetchFieldConfig('label'));
         if ($validator->fails()){
             throw new FormValidationException ('Validation failed',$validator->errors());
@@ -42,10 +58,16 @@ class BaseModel extends Model {
             },ARRAY_FILTER_USE_KEY);
         }
         array_walk($final_rules, function ($v, $k) use($formdata){
-            $v = str_replace(':self', $formdata[$k], $v);
+            if(isset($formdata[$k])){
+                $v = str_replace(':self', $formdata[$k], $v);
+            }else{
+                $v = str_replace(':self', 0, $v);
+            }
         });
         return $final_rules;
     }
+
+
 
     public function fetchFieldConfig($item,$default=NULL){
         $this->_setFieldConfig();

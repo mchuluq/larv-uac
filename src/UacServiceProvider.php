@@ -36,6 +36,11 @@ class UacServiceProvider extends ServiceProvider{
         if ($this->app->runningInConsole()) {
             $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
 
+            include_once __DIR__.'/../console/GroupCommand.php';
+            include_once __DIR__.'/../console/RoleCommand.php';
+            include_once __DIR__.'/../console/TaskCommand.php';
+            include_once __DIR__.'/../console/UserCommand.php';
+            
             $this->commands([
                 Console\GroupCommand::class,
                 Console\RoleCommand::class,
@@ -52,6 +57,7 @@ class UacServiceProvider extends ServiceProvider{
             __DIR__.'/../fields/groups.php' => app_path('fields/groups.php'),
             __DIR__.'/../fields/roles.php' => app_path('fields/roles.php'),
             __DIR__.'/../fields/tasks.php' => app_path('fields/tasks.php'),            
+            __DIR__.'/../fields/users.php' => app_path('fields/users.php'),            
         ], 'larv-uac');
     }
 

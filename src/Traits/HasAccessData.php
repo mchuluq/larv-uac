@@ -32,4 +32,31 @@ trait HasAccessData {
         return $this;
     }
 
+    function isHasAccessData($requirement=null,$type=null){
+        if(!isset($this->attributes['access_data'][$type])){
+            return false;
+        }
+        $current_access = $this->attributes['access_data'][$type];
+        if(!$requirement && $current_access){
+            return true;
+        }
+        if(is_array($requirement)){
+            if(!$current_access){
+                return false;
+            }
+            $status = false;
+            foreach($requirement as $req){
+                if(in_array($req,$current_access)){
+                    $status = true;
+                };
+            } 
+            return $status;
+        }else{
+            if(!$current_access){
+                return false;
+            }
+            return (in_array($requirement,$current_access));
+        }
+    }
+
 }

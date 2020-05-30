@@ -2,11 +2,11 @@
 
 namespace Mchuluq\Laravel\Uac\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use Mchuluq\Laravel\Uac\Models\BaseModel;
 
 use Mchuluq\Laravel\Uac\Models\User;
 
-class Login extends Model{
+class Login extends BaseModel{
     
     protected $fillable = [
         'id','user_id','login_start','ip_address','user_agent','logout','remember_selector','remember_validator', 'remember_expire',

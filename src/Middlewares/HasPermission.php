@@ -15,9 +15,8 @@ class HasPermission {
         $user = Auth::user();
         $route_name = $request->route()->getAction('as');
         $path_uri = $request->path();
-        $current_permissions = $user->permissions;
 
-        if(in_array($route_name,$current_permissions) || in_array($path_uri,$current_permissions)){
+        if($user->isHasPermission($path_uri) || $user->isHasPermission($route_name)){
             return $next($request);
         }else{
             return $this->setAbortResponse($request);

@@ -7,6 +7,7 @@ use Illuminate\Auth\EloquentUserProvider as BaseUserProvider;
 use Mchuluq\Laravel\Uac\Contracts\Authenticatable as UserContract;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableUserContract;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Str;
 
 use Request;
 use Mchuluq\Laravel\Uac\Helpers\UacHelperTrait as uacHelper;
@@ -15,11 +16,38 @@ class UacUserProvider extends BaseUserProvider implements UserProvider{
 
     use uacHelper;
 
+    protected function getModelByIdentifier($identifier){
+        return Cache::store(config('uac.cache_driver'))->remember("user.$identifier", config('uac.cache_ttl'), function() use($identifier) {
+            $model = $this->createModel();
+            return $this->newModelQuery($model)->where($model->getAuthIdentifierName(), $identifier)->where('is_disabled','0')->first();
+        });
+    }
+
+    public function retrieveByCredentials(array $credentials){
+        if (empty($credentials) ||
+           (count($credentials) === 1 &&
+            array_key_exists('password', $credentials))) {
+            return;
+        }
+        $query = $this->newModelQuery();
+        foreach ($credentials as $key => $value) {
+            if (Str::contains($key, 'password')) {
+                continue;
+            }
+            if (is_array($value) || $value instanceof Arrayable) {
+                $query->whereIn($key, $value);
+            } else {
+                $query->where($key, $value);
+            }
+        }
+        return $query->where('is_disabled','0')->first();
+    }
+
     public function retrieveById($identifier){
         return Cache::store(config('uac.cache_driver'))->remember("user.$identifier", config('uac.cache_ttl'), function() use($identifier) {
-            return parent::retrieveById($identifier);
+            $model = $this->createModel();
+            return $this->newModelQuery($model)->where($model->getAuthIdentifierName(), $identifier)->where('is_disabled','0')->first();
         });
-        //return Cache::store(config('uac.cache_driver'))->get("user.$identifier") ?? parent::retrieveById($identifier);
     }
 
     public function retrieveByToken($identifier, $token){
@@ -95,9 +123,16 @@ class UacUserProvider extends BaseUserProvider implements UserProvider{
         }
     }
 
-    protected function getModelByIdentifier($identifier){
-        $model = $this->createModel();
-        return $model->where($model->getAuthIdentifierName(), $identifier)->where('is_disabled','0')->first();
+    public function updateLogout($identifier,$login_id){
+        $model = $this->getModelByIdentifier($identifier);
+        $token = $model->logins()->where('id', $login_id)->first();
+        if ($model && $token) {
+            $token->logout = true;
+            $token->remember_selector = null;
+            $token->remember_validator = null;
+            $token->remember_expire = null;
+            $token->save();
+        }
     }
 
     public function validateCredentials(AuthenticatableUserContract $user, array $credentials){

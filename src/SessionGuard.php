@@ -25,7 +25,6 @@ class SessionGuard extends BaseGuard{
         $this->expire = $expire ?: 10080;
     }
 
-
     public function user(){
         if ($this->loggedOut) {
             return;
@@ -45,7 +44,7 @@ class SessionGuard extends BaseGuard{
             if ($this->user) {
                 $this->replaceRememberToken($this->user, $recaller->token());
                 $token = $this->retrieveSelectorValidatorCouple($recaller->token());
-                $this->customUpdateSession($this->user->getAuthIdentifier(),$token['selector']);
+                $this->customUpdateSession($this->user,$token['id']);
                 $this->fireLoginEvent($this->user, true);
             }
         }
@@ -56,7 +55,7 @@ class SessionGuard extends BaseGuard{
         $oldToken = $this->retrieveSelectorValidatorCouple($token);
         $guid = $oldToken['id'];
         $newToken = $this->generateSelectorValidatorCouple($guid);
-        $this->provider->replaceRememberToken($user->getAuthIdentifier(), $token, $newToken, $this->expire);
+        $this->provider->replaceRememberToken($user, $token, $newToken, $this->expire);
         $this->queueRecallerCookie($user, $newToken);
     }
 
@@ -67,16 +66,16 @@ class SessionGuard extends BaseGuard{
         }else{
             $token = $this->createLogin($user);
         }
-        $user->login_id = $token['selector'];
-        $this->customUpdateSession($user->getAuthIdentifier(),$token['selector']);
+        $user->login_id = $token['id'];
+        $this->customUpdateSession($user,$token['id']);
         $this->fireLoginEvent($user, $remember);
         $this->setUser($user);
     }
 
     function customUpdateSession($user,$login_id){
-        parent::updateSession($user);
+        parent::updateSession($user->getAuthIdentifier());
+        $user->generateUAC();
         $this->session->put('login_id',$login_id);
-
     }
         
 
@@ -99,7 +98,9 @@ class SessionGuard extends BaseGuard{
 
     public function logout(){
         $user = $this->user();
+        $login_id = $this->session->get('login_id');
         $this->provider->purgeRememberTokens($user->getAuthIdentifier(),true);
+        $this->provider->updateLogout($user->getAuthIdentifier(),$login_id);
         $this->clearUserDataFromStorage();
         if (isset($this->events)) {
             $this->events->dispatch(new LogoutEvent($this->name, $user));
@@ -112,9 +113,7 @@ class SessionGuard extends BaseGuard{
         $this->session->remove($this->getName());
         $recaller = $this->recaller();
         if (! is_null($recaller)) {
-            $this->getCookieJar()->queue($this->getCookieJar()
-                    ->forget($this->getRecallerName()));
-
+            $this->getCookieJar()->queue($this->getCookieJar()->forget($this->getRecallerName()));
             $this->provider->deleteRememberToken($recaller->id(), $recaller->token());
         }
     }

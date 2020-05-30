@@ -2,15 +2,17 @@
 
 namespace Mchuluq\Laravel\Uac\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use Mchuluq\Laravel\Uac\Models\BaseModel;
 use Illuminate\Support\Facades\DB;
 
 use Mchuluq\Laravel\Uac\Helpers\UacHelperTrait as helper;
+
 use Mchuluq\Laravel\Uac\Models\User;
+use Mchuluq\Laravel\Uac\Models\RoleActor;
 
 use Carbon\Carbon;
 
-class Permission extends Model{
+class Permission extends BaseModel{
 
     use helper;
 
@@ -57,18 +59,19 @@ class Permission extends Model{
     }
 
     function getPermissions($user_id,$group_name){
+        $tperm = $this->getTable();
+        $troleact = with(new RoleActor)->getTable();
+
         $result = [];
-        $res = DB::table('permissions'." AS a")->select("a.uri_access AS uri_access")
+        $res = DB::table($tperm." AS a")->select("a.uri_access AS uri_access")
         ->where("a.user_id",$user_id)
         ->orWhere("a.group_name",$group_name)
-        ->orWhereRaw("(a.role_name IN (SELECT c.role_name FROM role_actors c WHERE (c.user_id = ?)))",[$user_id])
-        ->orWhereRaw("(a.role_name IN (SELECT c.role_name FROM role_actors c WHERE (c.group_name = ?)))",[$group_name])
+        ->orWhereRaw("(a.role_name IN (SELECT c.role_name FROM ".$troleact." c WHERE (c.user_id = ?)))",[$user_id])
+        ->orWhereRaw("(a.role_name IN (SELECT c.role_name FROM ".$troleact." c WHERE (c.group_name = ?)))",[$group_name])
         ->groupBy('a.uri_access')->get()->toArray();
-        
         foreach($res as $r){
             $result[] = $r->uri_access;
         }
-        
         return $result;
     }
 }

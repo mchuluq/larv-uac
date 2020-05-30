@@ -55,4 +55,10 @@ trait HasPermission {
         return $this;
     }
 
+    function isHasPermission($uri_access){
+        if(!isset($this->attributes['permissions'])){
+            return false;
+        }
+        return in_array($uri_access,$this->attributes['permissions']);   
+    }
 }

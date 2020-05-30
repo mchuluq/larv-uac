@@ -2,12 +2,12 @@
 
 namespace Mchuluq\Laravel\Uac\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use Mchuluq\Laravel\Uac\Models\BaseModel;
 use Mchuluq\Laravel\Uac\Helpers\UacHelperTrait as helper;
 use Mchuluq\Laravel\Uac\Traits\HasRoleActor;
 use Mchuluq\Laravel\Uac\Helpers\ObjectStorage;
 
-class Group extends Model{
+class Group extends BaseModel{
 
     use helper;
     use HasRoleActor;

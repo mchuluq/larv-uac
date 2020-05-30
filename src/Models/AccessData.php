@@ -2,11 +2,11 @@
 
 namespace Mchuluq\Laravel\Uac\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use Mchuluq\Laravel\Uac\Models\BaseModel;
 use Mchuluq\Laravel\Uac\Helpers\UacHelperTrait as helper;
 use Carbon\Carbon;
 
-class AccessData extends Model{
+class AccessData extends BaseModel{
 
     use helper;
 

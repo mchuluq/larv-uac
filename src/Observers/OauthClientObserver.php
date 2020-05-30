@@ -15,7 +15,6 @@ class OauthClientObserver {
         $client->id = $this->guid('oauth_client_id');
     }
     
-    
 }
 
 // client ID = 29497317-dbfb-0013-39f0-7105b03c7f27

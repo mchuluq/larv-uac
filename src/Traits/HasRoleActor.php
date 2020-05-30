@@ -49,4 +49,11 @@ trait HasRoleActor {
         return $this;
     }
 
+    function isHasRole($role){
+        if(!isset($this->attributes['roles'])){
+            return false;
+        }
+        return in_array($role,$this->attributes['roles']);
+    }
+
 }

@@ -2,10 +2,10 @@
 
 namespace Mchuluq\Laravel\Uac\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use Mchuluq\Laravel\Uac\Models\BaseModel;
 use Mchuluq\Laravel\Uac\Helpers\UacHelperTrait as helper;
 
-class Role extends Model{
+class Role extends BaseModel{
 
     use helper;
 

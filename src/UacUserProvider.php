@@ -11,6 +11,7 @@ use Illuminate\Support\Str;
 
 use Request;
 use Mchuluq\Laravel\Uac\Helpers\UacHelperTrait as uacHelper;
+use Mchuluq\Laravel\Uac\Models\Task;
 
 class UacUserProvider extends BaseUserProvider implements UserProvider{
 
@@ -144,5 +145,22 @@ class UacUserProvider extends BaseUserProvider implements UserProvider{
             $user->where('user_id', $user->user_id)->update(['password' => $hash]);
         }
         return $verify;
+    }
+
+    public function getUserMenu($identifier){
+        $task = new Task();
+        $model = $this->getModelByIdentifier($identifier);
+        return $task->getUserMenu($model->permissions);
+    }
+
+    public function getShortcut($identifier){
+        $task = new Task();
+        $model = $this->getModelByIdentifier($identifier);
+        return $task->getShortcut($model->permissions);
+    }
+    
+    public function getPublicMenu(){
+        $task = new Task();
+        return $task->getPublicMenu();
     }
 }

@@ -111,25 +111,4 @@ class User extends BaseModel implements AuthenticatableContract{
     public function validateForPassportPasswordGrant($password){
         return password_verify($password, $this->password);
     }
-
-    
-
-
-    public function generateUAC(){
-        $this->getPermissions()->getRoles()->getAccessData();
-        $data = array(
-            'permissions'   => $this->permissions,
-            'access_data'   => $this->access_data,
-            'roles'         => $this->roles,
-            'menus'         => null,
-            'widget'        => null,
-        );
-        $this->setStorage($data);
-    }
-    public function isHasPermissions($uri_access){
-        //
-    }
-    public function isHasAccessData($access,$type=null){
-        //
-    }
 }

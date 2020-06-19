@@ -74,7 +74,6 @@ class SessionGuard extends BaseGuard{
 
     function customUpdateSession($user,$login_id){
         parent::updateSession($user->getAuthIdentifier());
-        $user->generateUAC();
         $this->session->put('login_id',$login_id);
     }
         
@@ -137,5 +136,35 @@ class SessionGuard extends BaseGuard{
 
     protected function createRecaller($value){
         return $this->getCookieJar()->make($this->getRecallerName(), $value, $this->expire);
+    }
+
+    
+    public function getUserMenu(){
+        $menus = $this->session->get('user_menu');
+        if(!$menus){
+            $user = $this->user();
+            $menus = $this->provider->getUserMenu($user->getAuthIdentifier());
+            $this->session->put('user_menu',$menus);
+        }
+        return $menus;
+    }
+
+    public function getShortcut(){
+        $menus = $this->session->get('user_shortcut');
+        if(!$menus){
+            $user = $this->user();
+            $menus = $this->provider->getShortcut($user->getAuthIdentifier());
+            $this->session->put('user_shortcut',$menus);
+        }
+        return $menus;
+    }
+
+    public function getPublicMenu(){
+        $menus = $this->session->get('public_menu');
+        if(!$menus){
+            $menus = $this->provider->getPublicMenu();
+            $this->session->put('public_menu',$menus);
+        }
+        return $menus;
     }
 }

@@ -1,8 +1,57 @@
-## [UNDER DEVELOPMENT]
-Not yet ready.
-
 ## Laravel User Access Control
-Laravel User Access Control (Role Based Access Control) + some additional feature
+Laravel User Access Control (Role Based Access Control) dengan beberapa fitur tambahan
+
+### MAIN FEATURE
+
+- Role Based Access Control
+- Access Data Control, untuk data filtering
+- Configurable field option (label, rule validation, help text, special attr, dll)
+- Object Storage, Multifunctional data storage untuk model
+- Console command
+- model-integrated grouped validation
+- menu builder, dengan option 
+
+#### MENU BUILDER
+- `Auth::getUserMenu()`, ambil struktur menu untuk user yang sedang aktif
+- `Auth::getShortcut()`, ambil menu dengan flag `quick_access` untuk user yang sedang aktif
+- `Auth::getPublicMenu()`, ambil menu dengan flag `is_protected = '0'`
+
+#### BaseModel
+
+Fungsi tambahan untuk model, extend model dengan `Mchuluq\Laravel\Uac\Models\BaseModel`
+
+- `fill(array $attributes)`, bawaan asli `Illuminate\Database\Eloquent\Model` dengan tambahan mengisi atribut model untuk di validasi 
+
+- `setDataToValidate(array $attributes)`, mengisi data atribut untuk divalidasi tanpa `fill`
+
+- `validate($group,$fields)`, memvalidasi data atribut model, dengan opsi grup rules (contoh : insert, update), dan opsi field, untuk memvalidasi atribut tertentu
+
+- `fetchFieldConfig($item,$default)`, mengambil config field tertentu (contoh : list untuk dropdown, label atribut, help text, dll)
+
+#### Permission (user,group,role)
+
+- `assignPermission($uri_access)`
+- `removePermissions()`
+- `getPermissions()`
+- `isHasPermission($uri_access)`
+
+
+#### Role (user,group)
+
+- `assignRole($uri_access)`
+- `removeRoles()`
+- `getRoles()`
+- `isHasRoles($uri_access)`
+
+
+#### AccessData (user)
+
+- `assignAccessData($access,$type)`
+- `removeAccessData()`
+- `getAccessData()`
+- `isHasAccessData($access,$type)`
+
+
 
 ### Role Based Access Control
 
@@ -60,18 +109,26 @@ add some feature to eloquent model with extends model to `Mchuluq\Laravel\Uac\Mo
 
 - validate
   ```
-    $model = new Model();
-    $model->attr_1 = 'some value';
-    $model->attr_2 = 'another value';
-    $model->validate('insert')->save();
+    try {
+        $model = new Model();
+        $model->attr_1 = 'some value';
+        $model->attr_2 = 'another value';
+        $model->validate('insert')->save();
+        echo "success";
+    } catch (Mchuluq\Laravel\Uac\Exception\FormValidationException $e) {
+        echo $e->getMessage();
+    }
+    try{
   ```
 
 ### installation
-install this packages on new clear laravel installation
+install pada instalasi laravel baru
 
 `composer require mchuluq/larv-uac` 
 
-run cmd `php artisan migrate`. it will be remove current users table, and replace with our defined table
+run cmd `php artisan migrate`. mengganti tabel user bawaan
+
+run cmd `php artisan vendor:publish --tag=larv-uac`
 
 ### Artisan Console Command
 

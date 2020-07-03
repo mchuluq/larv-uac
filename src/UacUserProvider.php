@@ -12,6 +12,7 @@ use Illuminate\Support\Str;
 use Request;
 use Mchuluq\Laravel\Uac\Helpers\UacHelperTrait as uacHelper;
 use Mchuluq\Laravel\Uac\Models\Task;
+use Mchuluq\Laravel\Uac\Contracts\UserProvider;
 
 class UacUserProvider extends BaseUserProvider implements UserProvider{
 
@@ -20,7 +21,7 @@ class UacUserProvider extends BaseUserProvider implements UserProvider{
     protected function getModelByIdentifier($identifier){
         return Cache::store(config('uac.cache_driver'))->remember("user.$identifier", config('uac.cache_ttl'), function() use($identifier) {
             $model = $this->createModel();
-            return $this->newModelQuery($model)->where($model->getAuthIdentifierName(), $identifier)->where('is_disabled','0')->first();
+            return $this->newModelQuery($model)->where($model->getAuthIdentifierName(), $identifier)->where('is_disabled','0')->first()->getPermissions()->getRoles()->getAccessData();
         });
     }
 
@@ -41,13 +42,13 @@ class UacUserProvider extends BaseUserProvider implements UserProvider{
                 $query->where($key, $value);
             }
         }
-        return $query->where('is_disabled','0')->first();
+        return $query->where('is_disabled','0')->first()->getPermissions()->getRoles()->getAccessData();
     }
 
     public function retrieveById($identifier){
         return Cache::store(config('uac.cache_driver'))->remember("user.$identifier", config('uac.cache_ttl'), function() use($identifier) {
             $model = $this->createModel();
-            return $this->newModelQuery($model)->where($model->getAuthIdentifierName(), $identifier)->where('is_disabled','0')->first();
+            return $this->newModelQuery($model)->where($model->getAuthIdentifierName(), $identifier)->where('is_disabled','0')->first()->getPermissions()->getRoles()->getAccessData();
         });
     }
 

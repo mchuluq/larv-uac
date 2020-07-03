@@ -4,6 +4,7 @@ namespace Mchuluq\Laravel\Uac;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\ServiceProvider;
+use Mchuluq\Laravel\Uac\Guards\SessionGuard;
 
 class UacServiceProvider extends ServiceProvider{
 
@@ -27,11 +28,6 @@ class UacServiceProvider extends ServiceProvider{
             }
             return $guard;
         });
-
-        /*Auth::provider('database', function ($app, array $config) {
-            $connection = $app['db']->connection();
-            return new DatabaseUserProvider($connection, $app['hash'], $config['table']);
-        });*/
 
         Auth::provider('uac-user', function ($app, array $config) {
             return new UacUserProvider($app['hash'], $config['model']);
@@ -59,10 +55,10 @@ class UacServiceProvider extends ServiceProvider{
             __DIR__.'/../config/config.php' => config_path('uac.php'),
             
             // Fields
-            __DIR__.'/../fields/groups.php' => app_path('fields/groups.php'),
-            __DIR__.'/../fields/roles.php' => app_path('fields/roles.php'),
-            __DIR__.'/../fields/tasks.php' => app_path('fields/tasks.php'),            
-            __DIR__.'/../fields/users.php' => app_path('fields/users.php'),            
+            __DIR__.'/../fields/groups.php' => app_path('Fields/groups.php'),
+            __DIR__.'/../fields/roles.php' => app_path('Fields/roles.php'),
+            __DIR__.'/../fields/tasks.php' => app_path('Fields/tasks.php'),            
+            __DIR__.'/../fields/users.php' => app_path('Fields/users.php'),            
         ], 'larv-uac');
     }
 }

@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Cache;
 
 use Mchuluq\Laravel\Uac\Helpers\UacHelperTrait;
 
+use Webpatser\Uuid\Uuid;
+
 class UserObserver {
 
     use UacHelperTrait;
@@ -20,7 +22,7 @@ class UserObserver {
     }
 
     public function creating(User $user){
-        $user->user_id = $this->guid('user_id');
+        $user->user_id = Uuid::generate();
     }
 
     public function saving(User $user){

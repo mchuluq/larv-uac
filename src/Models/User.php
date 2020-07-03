@@ -6,34 +6,26 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 
 use Mchuluq\Laravel\Uac\Models\BaseModel;
-
-use Laravel\Passport\HasApiTokens;
-
-use Mchuluq\Laravel\Uac\EloquentAuthenticatable as Authenticatable;
-
+use Mchuluq\Laravel\Uac\Traits\EloquentAuthenticatable as Authenticatable;
 use Mchuluq\Laravel\Uac\Contracts\Authenticatable as AuthenticatableContract;
-
 use Mchuluq\Laravel\Uac\Observers\UserObserver;
-
 use Mchuluq\Laravel\Uac\Helpers\UacHelperTrait as uacHelper;
 use Mchuluq\Laravel\Uac\Helpers\ObjectStorage;
-
 use Mchuluq\Laravel\Uac\Traits\HasRoleActor;
 use Mchuluq\Laravel\Uac\Traits\HasPermission;
 use Mchuluq\Laravel\Uac\Traits\HasAccessData;
-
-
 
 class User extends BaseModel implements AuthenticatableContract{
     
     use Notifiable;
     use Authenticatable;
     use uacHelper;
+
     use HasRoleActor;
     use HasAccessData;
     use HasPermission;
+    
     use ObjectStorage;
-    use HasApiTokens;
 
     protected $primaryKey = 'user_id';
     public $incrementing = false;
@@ -103,12 +95,5 @@ class User extends BaseModel implements AuthenticatableContract{
     
     public function getRememberTokenName(){
         return $this->rememberTokenName;
-    }
-
-    public function findForPassport($username){
-        return $this->where('username', $username)->where('is_disabled','0')->first();
-    }
-    public function validateForPassportPasswordGrant($password){
-        return password_verify($password, $this->password);
     }
 }

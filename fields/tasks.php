@@ -9,46 +9,58 @@ return [
             'rules' => [
                 'insert' => 'required|unique:tasks,uri_access|max:64',
                 'update' => 'required|unique:tasks,uri_access,:self|max:64',
-            ]
+            ],
+            'ask' => 'URI Access'
         ],
         'label' => [
             'label' => 'Label',
             'rules' => [
                 'insert' => 'required|max:64',
                 'update' => 'required|max:64',
-            ]
+            ],
+            'ask' => 'Label'
         ],
         'html_attr' => [
             'label' => 'HTML Attribute',
-            'rules' => 'max:255'
+            'rules' => 'max:255',
+            'ask' => 'HTML Attribute'
         ],
         'icon' => [
             'label' => 'Icon',
-            'rules' => 'max:64'
+            'rules' => 'max:64',
+            'ask' => 'Icon'
         ],
         'group' => [
             'label' => 'Group',
-            'rules' => 'max:64'
+            'rules' => 'required|max:64',
+            'ask' => 'Group'
         ],
         'position' => [
             'label' => 'Position',
-            'rules' => 'max:64',
-            'list_position' => config('uac.task_position_list')
+            'rules' => 'required|max:64',
+            'list' => array(
+                'main' => 'Utama',
+                'top' => 'Atas',
+            ),
+            'ask' => 'Position'
         ],
         'is_visible' => [
             'label' => 'Visibility',
-            'rules' => 'size:1',
-            'list' => ['0'=>'Hidden','1'=>'Visible']
+            'rules' => 'required|size:1',
+            'list' => ['0'=>'Hidden','1'=>'Visible'],
+            'ask' => 'Visibility'
         ],
         'is_protected' => [
             'label' => 'Is Protected',
-            'rules' => 'size:1',
-            'list' => ['0'=>'No','1'=>'Yes']
+            'rules' => 'required|size:1',
+            'list' => ['0'=>'No','1'=>'Yes'],
+            'ask' => 'Is Protected ?'
         ],
         'quick_access' => [
             'label' => 'Quick Access',
-            'rules' => 'size:1',
-            'list' => ['0'=>'No','1'=>'Yes']
+            'rules' => 'required|size:1',
+            'list' => ['0'=>'No','1'=>'Yes'],
+            'ask' => 'Quick Access ?'
         ],
         'user_type' => [
             'label' => 'User Type',
@@ -56,10 +68,12 @@ return [
         ],
         'menu_order' => [
             'label' => 'Menu Order',
-            'rules' => 'numeric'
+            'rules' => 'numeric',
+            'ask' => 'Menu order ?'
         ],        
         'description' => [
             'label' => 'Description',
-            'rules' => 'max:255'
+            'rules' => 'max:255',
+            'ask' => 'Description ?'
         ]
     ];

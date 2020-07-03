@@ -123,11 +123,21 @@ class TaskCommand extends Command{
     }
     
     private function getDetails() : array{
-        $this->details['uri_access'] = $this->ask('URI Access');
-        $this->details['label'] = $this->ask('Label');
-        $this->details['description'] = $this->ask('Label Description');
+        $asks = $this->task->fetchFieldConfig('ask');
+        $lists = $this->task->fetchFieldConfig('list');
+
+        $this->details['uri_access'] = $this->ask($asks['uri_access']);
+        $this->details['label'] = $this->ask($asks['label']);
+        $this->details['html_attr'] = $this->ask($asks['html_attr']);
+        $this->details['icon'] = $this->ask($asks['icon']);
+        $this->details['group'] = $this->ask($asks['group']);
+        $this->details['position'] = $this->choice($asks['position'],array_keys($lists['position']));
+        $this->details['is_visible'] = $this->choice($asks['is_visible'],array_keys($lists['is_visible']));;
+        $this->details['is_protected'] = $this->choice($asks['is_protected'],array_keys($lists['is_protected']));
+        $this->details['quick_access'] = $this->choice($asks['quick_access'],array_keys($lists['quick_access']));;
+        $this->details['menu_order'] = $this->ask($asks['menu_order']);
+        $this->details['description'] = $this->ask($asks['description']);
         return $this->details;
     }
-    
-   
+  
 }

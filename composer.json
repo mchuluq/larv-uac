@@ -20,7 +20,8 @@
         }
     ],
     "require": {
-        "laravel/passport": "^9.0"
+        "doctrine/dbal": "^2.10",
+        "webpatser/laravel-uuid": "3.0"
     },
     "require-dev": {
         "mockery/mockery": "~1.0"

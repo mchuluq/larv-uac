@@ -11,6 +11,17 @@ Laravel User Access Control (Role Based Access Control) dengan beberapa fitur ta
 - model-integrated grouped validation
 - menu builder, dengan option 
 
+### installation
+install pada instalasi laravel baru
+
+`composer require mchuluq/larv-uac` 
+
+run cmd `php artisan migrate`. mengganti tabel user bawaan
+
+run cmd `php artisan vendor:publish --tag=larv-uac`
+
+add `'uac' => \Mchuluq\Laravel\Uac\Middlewares\HasPermission::class,` to `app\Http\Kernel` `$routeMiddleware`
+
 #### MENU BUILDER
 - `Auth::getUserMenu()`, ambil struktur menu untuk user yang sedang aktif
 - `Auth::getShortcut()`, ambil menu dengan flag `quick_access` untuk user yang sedang aktif
@@ -121,15 +132,6 @@ add some feature to eloquent model with extends model to `Mchuluq\Laravel\Uac\Mo
     try{
   ```
 
-### installation
-install pada instalasi laravel baru
-
-`composer require mchuluq/larv-uac` 
-
-run cmd `php artisan migrate`. mengganti tabel user bawaan
-
-run cmd `php artisan vendor:publish --tag=larv-uac`
-
 ### Artisan Console Command
 
 ##### User
@@ -150,7 +152,7 @@ run cmd `php artisan vendor:publish --tag=larv-uac`
 ##### Role / Role Actor
 - `uac:role create` create new role.
 - `uac:role delete` delete role.
-- `uac:role assign {role_name} {--user_id=? or --roup_name=?}`  add role for user or group.
+- `uac:role assign {role_name} {--user_id=? or --group_name=?}`  add role for user or group.
 - `uac:role remove {role_name} {--user_id=? or --group_name=?}` remove role from user or group.
 - `uac:role list` display all roles.
 - `uac:role permission {role_name}` display permissions/tasks list of that role.

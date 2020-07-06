@@ -48,7 +48,7 @@ class UserCommand extends Command{
     private function _registerUser(){
         $this->getDetails();
         try{
-            $this->user->fill($this->details)->validate('insert',['username','fullname','password','email','phone','avatar_url','is_disabled','user_type','group_name','user_code_number','password_retype'])->save();
+            $this->user->fill($this->details)->validate('insert',['username','fullname','password','email','phone','avatar_url','is_disabled','user_type','group_name','api_token','user_code_number','password_retype'])->save();
             $this->info('user has been created  | username : '.$this->details['username'].', password : '.$this->details['password']);
         }catch(\Mchuluq\Laravel\Uac\Exception\FormValidationException $e){
             $this->info($e->getMessage());
@@ -105,6 +105,7 @@ class UserCommand extends Command{
         $this->details['user_type'] = $this->choice($asks['user_type'],array_keys($lists['user_type']));
         $this->details['group_name'] = $this->choice($asks['group_name'],$lists['group_name']);
         $this->details['user_code_number'] = $this->ask($asks['user_code_number']);
+        $this->details['api_token'] = $this->choice($asks['api_token'],$lists['api_token']);
         $this->details['password'] = $this->secret($asks['password']);
         $this->details['password_retype'] = $this->secret($asks['password_retype']);
     }

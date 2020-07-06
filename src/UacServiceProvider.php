@@ -5,6 +5,7 @@ namespace Mchuluq\Laravel\Uac;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\ServiceProvider;
 use Mchuluq\Laravel\Uac\Guards\SessionGuard;
+use Mchuluq\Laravel\Uac\Guards\TokenApiGuard;
 
 class UacServiceProvider extends ServiceProvider{
 
@@ -14,7 +15,9 @@ class UacServiceProvider extends ServiceProvider{
 
     public function boot(){
         $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
-        Auth::extend('uac', function ($app, $name, $config) {
+        
+        // register uac-web for web guard
+        Auth::extend('uac-web', function ($app, $name, array $config) {
             $provider = $app['auth']->createUserProvider($config['provider'] ?? null);
             $guard = new SessionGuard($name, $provider, $app['session.store'], request(), $config['expire'] ?? null);
             if (method_exists($guard, 'setCookieJar')) {
@@ -29,6 +32,14 @@ class UacServiceProvider extends ServiceProvider{
             return $guard;
         });
 
+        // register uac-token for api token guard
+        Auth::extend('uac-token', function ($app, $name, array $config) {
+			$provider = $app['auth']->createUserProvider($config['provider'] ?? null);
+			$request = app('request');
+			return new TokenApiGuard($provider, $request, $config);
+		});
+
+        // provide user provider
         Auth::provider('uac-user', function ($app, array $config) {
             return new UacUserProvider($app['hash'], $config['model']);
         });

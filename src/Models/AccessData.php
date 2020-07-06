@@ -3,6 +3,7 @@
 namespace Mchuluq\Laravel\Uac\Models;
 
 use Mchuluq\Laravel\Uac\Models\BaseModel;
+use Mchuluq\Laravel\Uac\Observers\AccessDataObserver;
 use Mchuluq\Laravel\Uac\Helpers\UacHelperTrait as helper;
 use Carbon\Carbon;
 
@@ -17,6 +18,11 @@ class AccessData extends BaseModel{
         'access_name',
         'access_type'        
     );
+
+    protected static function boot(){
+        parent::boot();
+        static::observe(AccessDataObserver::class);
+    }
 
      function assign($user_id,$access_name,$access_type){
         $data = array();

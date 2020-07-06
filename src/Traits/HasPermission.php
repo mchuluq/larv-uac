@@ -3,7 +3,6 @@
 namespace Mchuluq\Laravel\Uac\Traits;
 
 use Mchuluq\Laravel\Uac\Models\Permission;
-
 use Mchuluq\Laravel\Uac\Models\User;
 use Mchuluq\Laravel\Uac\Models\Group;
 use Mchuluq\Laravel\Uac\Models\Role;

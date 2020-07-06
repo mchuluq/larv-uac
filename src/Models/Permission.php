@@ -10,6 +10,8 @@ use Mchuluq\Laravel\Uac\Helpers\UacHelperTrait as helper;
 use Mchuluq\Laravel\Uac\Models\User;
 use Mchuluq\Laravel\Uac\Models\RoleActor;
 
+use Mchuluq\Laravel\Uac\Observers\PermissionObserver;
+
 use Carbon\Carbon;
 
 class Permission extends BaseModel{
@@ -24,6 +26,11 @@ class Permission extends BaseModel{
     );
 
     public $timestamps = false;
+
+    protected static function boot(){
+        parent::boot();
+        static::observe(PermissionObserver::class);
+    }
 
     function assign($for,$uri_access,$type='user_id'){
         $data = array();

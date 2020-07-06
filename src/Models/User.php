@@ -32,7 +32,7 @@ class User extends BaseModel implements AuthenticatableContract{
     protected $keyType = 'string';
 
     protected $fillable = [
-        'user_id','username','name', 'email', 'password','fullname','phone','avatar_url','is_disabled','user_type','user_code_number','group_name','settings'
+        'user_id','username','name', 'email', 'password','fullname','phone','avatar_url','is_disabled','user_type','user_code_number','group_name','settings','api_token'
     ];
     protected $guarded = [
         'roles','permissions','access_data',
@@ -40,6 +40,7 @@ class User extends BaseModel implements AuthenticatableContract{
 
     protected $hidden = [
         'password',
+        'api_token',
         'email_verified_at',
         'created_at',
         'updated_at',

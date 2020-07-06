@@ -4,6 +4,7 @@ namespace Mchuluq\Laravel\Uac\Observers;
 
 use Mchuluq\Laravel\Uac\Models\User;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Str;
 
 use Mchuluq\Laravel\Uac\Helpers\UacHelperTrait;
 
@@ -23,9 +24,15 @@ class UserObserver {
 
     public function creating(User $user){
         $user->user_id = Uuid::generate();
+        if($user->api_token == '1' || $user->api_token == 'yes'){
+            $user->api_token = Str::random(100);
+        }
     }
 
     public function saving(User $user){
+        if($user->api_token == '1' || $user->api_token == 'yes'){
+            $user->api_token = Str::random(100);
+        }
         unset($user->roles,$user->permissions,$user->access_data);
     }    
     public function saved(User $user){

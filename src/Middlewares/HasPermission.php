@@ -9,7 +9,7 @@ class HasPermission {
 
     public function handle($request, Closure $next){
         if(!Auth::check()){
-            return redirect(config('uac.unauthenticated_redirect_uri'),'/')->with('message','You need to login first');
+            return redirect(config('uac.unauthenticated_redirect_uri'))->with('message','You need to login first');
         }
 
         $user = Auth::user();

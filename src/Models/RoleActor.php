@@ -3,6 +3,7 @@
 namespace Mchuluq\Laravel\Uac\Models;
 
 use Mchuluq\Laravel\Uac\Models\BaseModel;
+use Mchuluq\Laravel\Uac\Observers\RoleActorObserver;
 use Mchuluq\Laravel\Uac\Helpers\UacHelperTrait as helper;
 
 use Carbon\Carbon;
@@ -21,6 +22,11 @@ class RoleActor extends BaseModel{
     );
 
     public $timestamps = false;
+
+    protected static function boot(){
+        parent::boot();
+        static::observe(RoleActorObserver::class);
+    }
 
     function assign($for,$role,$type='user_id'){
         $data = array();

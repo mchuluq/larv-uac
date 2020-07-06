@@ -68,6 +68,12 @@ return array(
     'settings' => [
         'label' => 'Settings',
     ],
+    'api_token' => [
+        'field' => 'api_token',
+        'label' => 'Api Token',
+        'ask' => 'Use API Token ?',
+        'list' => ['0'=>'no','1'=>'yes']
+    ],
 
     'password_retype' => [
         'label' => 'Retype password',

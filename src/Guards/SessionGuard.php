@@ -141,12 +141,15 @@ class SessionGuard extends BaseGuard{
     }
 
     
-    public function getUserMenu(){
+    public function getUserMenu($pos=null){
         $menus = $this->session->get('user_menu');
         if(!$menus){
             $user = $this->user();
             $menus = $this->provider->getUserMenu($user->getAuthIdentifier());
             $this->session->put('user_menu',$menus);
+        }
+        if(!is_null($pos) && isset($menus[$pos])){
+            return $menus[$pos];
         }
         return $menus;
     }

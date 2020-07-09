@@ -5,6 +5,9 @@ namespace Mchuluq\Laravel\Uac\Models;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 
+use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
+use Illuminate\Auth\Passwords\CanResetPassword;
+
 use Mchuluq\Laravel\Uac\Models\BaseModel;
 use Mchuluq\Laravel\Uac\Traits\EloquentAuthenticatable as Authenticatable;
 use Mchuluq\Laravel\Uac\Contracts\Authenticatable as AuthenticatableContract;
@@ -15,10 +18,12 @@ use Mchuluq\Laravel\Uac\Traits\HasRoleActor;
 use Mchuluq\Laravel\Uac\Traits\HasPermission;
 use Mchuluq\Laravel\Uac\Traits\HasAccessData;
 
-class User extends BaseModel implements AuthenticatableContract{
+class User extends BaseModel implements AuthenticatableContract, CanResetPasswordContract{
     
     use Notifiable;
     use Authenticatable;
+    use CanResetPassword;
+
     use uacHelper;
 
     use HasRoleActor;

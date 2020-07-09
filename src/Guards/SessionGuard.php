@@ -81,7 +81,7 @@ class SessionGuard extends BaseGuard{
         
 
     protected function createRememberToken(AuthenticatableContract $user){
-        $guid = Uuid::generate();
+        $guid = Uuid::generate()->string;
         $token = $this->generateSelectorValidatorCouple($guid);
         
         $this->provider->purgeRememberTokens($user->getAuthIdentifier(), true);
@@ -89,7 +89,7 @@ class SessionGuard extends BaseGuard{
         return $token;
     }
     protected function createLogin(AuthenticatableContract $user){
-        $guid = Uuid::generate();
+        $guid = Uuid::generate()->string;
         $token = $this->generateSelectorValidatorCouple($guid);
 
         $this->provider->purgeRememberTokens($user->getAuthIdentifier(), true);

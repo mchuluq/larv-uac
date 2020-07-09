@@ -23,7 +23,7 @@ class UserObserver {
     }
 
     public function creating(User $user){
-        $user->user_id = Uuid::generate();
+        $user->user_id = Uuid::generate()->string;
         if($user->api_token == '1' || $user->api_token == 'yes'){
             $user->api_token = Str::random(100);
         }

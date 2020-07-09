@@ -6,7 +6,6 @@ use Carbon\Carbon;
 use Illuminate\Auth\EloquentUserProvider as BaseUserProvider;
 use Mchuluq\Laravel\Uac\Contracts\Authenticatable as UserContract;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableUserContract;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
 
 use Request;
@@ -19,14 +18,12 @@ class UacUserProvider extends BaseUserProvider implements UserProvider{
     use uacHelper;
 
     protected function getModelByIdentifier($identifier){
-        return Cache::store(config('uac.cache_driver'))->remember("user.$identifier", config('uac.cache_ttl'), function() use($identifier) {
-            $model = $this->createModel();
-            $user = $this->newModelQuery($model)->where($model->getAuthIdentifierName(), $identifier)->where('is_disabled','0')->first();
-            if($user != null){
-                $user->getPermissions()->getRoles()->getAccessData();
-            }
-            return $user;
-        });
+        $model = $this->createModel();
+        $user = $this->newModelQuery($model)->where($model->getAuthIdentifierName(), $identifier)->where('is_disabled','0')->first();
+        if($user != null){
+            $user->getPermissions()->getRoles()->getAccessData();
+        }
+        return $user;
     }
 
     public function retrieveByCredentials(array $credentials){
@@ -52,14 +49,12 @@ class UacUserProvider extends BaseUserProvider implements UserProvider{
     }
 
     public function retrieveById($identifier){
-        return Cache::store(config('uac.cache_driver'))->remember("user.$identifier", config('uac.cache_ttl'), function() use($identifier) {
-            $model = $this->createModel();
-            $user = $this->newModelQuery($model)->where($model->getAuthIdentifierName(), $identifier)->where('is_disabled','0')->first();
-            if($user != null){
-                $user->getPermissions()->getRoles()->getAccessData();
-            }
-            return $user;
-        });
+        $model = $this->createModel();
+        $user = $this->newModelQuery($model)->where($model->getAuthIdentifierName(), $identifier)->where('is_disabled','0')->first();
+        if($user != null){
+            $user->getPermissions()->getRoles()->getAccessData();
+        }
+        return $user;
     }
 
     public function retrieveByToken($identifier, $token){

@@ -1,7 +1,7 @@
 <?php
 
 return array(
-    'unauthenticated_redirect_uri' => '/login',
+    'unauthenticated_redirect_uri' => '/auth/login',
     
     'password_algorithm' => PASSWORD_BCRYPT,
     'password_options' => [
@@ -34,4 +34,16 @@ return array(
     'cache_driver' => 'file',
     'cache_ttl' => 604800,
     'object_storage_driver' => 'file',
+
+    'views' => [
+        'login' => 'auth.login',
+        'email' => 'auth.passwords.email',
+        'reset' => 'auth.passwords.reset',
+        'confirm' => 'auth.passwords.confirm'
+    ],
+
+    'route' => true,
+
+    'login_max_attempts' => 3, //times
+    'login_decay' => 30, // minutes
 );

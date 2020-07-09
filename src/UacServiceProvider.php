@@ -11,11 +11,12 @@ class UacServiceProvider extends ServiceProvider{
 
     public function register(){
         $this->mergeConfigFrom(__DIR__.'/../config/config.php', 'uac');
+        $this->app->make('Mchuluq\Laravel\Uac\Auth\AccountController');
     }
 
     public function boot(){
         $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
-        
+
         // register uac-web for web guard
         Auth::extend('uac-web', function ($app, $name, array $config) {
             $provider = $app['auth']->createUserProvider($config['provider'] ?? null);
@@ -71,5 +72,9 @@ class UacServiceProvider extends ServiceProvider{
             __DIR__.'/../fields/tasks.php' => app_path('Fields/tasks.php'),            
             __DIR__.'/../fields/users.php' => app_path('Fields/users.php'),            
         ], 'larv-uac');
+
+        if(config('uac.route') == true){
+            require __DIR__ . '/UacRoutes.php';
+        }
     }
 }

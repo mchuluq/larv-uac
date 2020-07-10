@@ -2,6 +2,7 @@
 
 return array(
     'unauthenticated_redirect_uri' => '/auth/login',
+    'authenticated_redirect_uri' => '/dashboard',
     
     'password_algorithm' => PASSWORD_BCRYPT,
     'password_options' => [

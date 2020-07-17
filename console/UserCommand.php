@@ -93,8 +93,8 @@ class UserCommand extends Command{
     
     
     private function getDetails(){
-        $asks = $this->user->fetchFieldConfig('ask');
-        $lists = $this->user->fetchFieldConfig('list');
+        $asks = $this->user->fieldAttr('ask');
+        $lists = $this->user->fieldAttr('list');
         
         $this->details['username'] = $this->ask($asks['username']);
         $this->details['fullname'] = $this->ask($asks['fullname']);
@@ -111,8 +111,8 @@ class UserCommand extends Command{
     }
 
     private function displayUser(User $user){
-        $label = $this->user->fetchFieldConfig('label');
-        $list = $this->user->fetchFieldConfig('list');
+        $label = $this->user->fieldAttr('label');
+        $list = $this->user->fieldAttr('list');
         $maxlen = max(array_map('strlen', $label));
 
         $this->info('user found...');

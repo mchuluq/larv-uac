@@ -4,6 +4,7 @@ namespace Mchuluq\Laravel\Uac\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Validator as Validator;
+use Illuminate\Support\Arr;
 
 use Mchuluq\Laravel\Uac\Exception\FormValidationException;
 
@@ -29,7 +30,7 @@ class BaseModel extends Model {
 
     public function validate ($group=null,$fields = null){
         $validator = Validator::make($this->data_to_validate,$this->getValidationRules($this->data_to_validate,$group,$fields));
-        $validator->setAttributeNames($this->fetchFieldConfig('label'));
+        $validator->setAttributeNames($this->fieldAttr('label'));
         if ($validator->fails()){
             throw new FormValidationException ('Validation failed',$validator->errors());
         }
@@ -37,7 +38,7 @@ class BaseModel extends Model {
     }
 
     public function getValidationRules(array $formdata,string $group=null, $fields=null){
-        $rules = $this->fetchFieldConfig('rules',false);
+        $rules = $this->fieldAttr('rules',false);
         $final_rules = [];
         if($group){
             foreach($rules as $key=>$rule){
@@ -67,9 +68,7 @@ class BaseModel extends Model {
         return $final_rules;
     }
 
-
-
-    public function fetchFieldConfig($item,$default=NULL){
+    public function fieldAttr($item,$default=NULL){
         $this->_setFieldConfig();
         $data = [];
         foreach($this->field_config as $key=>$val){
@@ -91,6 +90,18 @@ class BaseModel extends Model {
                 throw new \Exception('Field config not found');
             }
         }
+    }
+
+    public function dropdown(string $id=null,$label=null){
+        $id = ($id) ? $id : $this->primaryKey;
+        $label = (!$label) ? $id : $label;
+        $get = $this->get()->toArray();
+        $lists = [];
+        foreach($get as $row){
+            $val = (is_array($label)) ? implode(' ',array_values(Arr::only($row,$label,null))) : $row[$label];
+            $lists[$row[$id]] = $val;
+        }
+        return $lists;
     }
 
 }

@@ -123,8 +123,8 @@ class TaskCommand extends Command{
     }
     
     private function getDetails() : array{
-        $asks = $this->task->fetchFieldConfig('ask');
-        $lists = $this->task->fetchFieldConfig('list');
+        $asks = $this->task->fieldAttr('ask');
+        $lists = $this->task->fieldAttr('list');
 
         $this->details['uri_access'] = $this->ask($asks['uri_access']);
         $this->details['label'] = $this->ask($asks['label']);

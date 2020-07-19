@@ -50,7 +50,7 @@ class UserCommand extends Command{
         try{
             $this->user->fill($this->details)->validate('insert',['username','fullname','password','email','phone','avatar_url','is_disabled','user_type','group_name','api_token','user_code_number','password_retype'])->save();
             $this->info('user has been created  | username : '.$this->details['username'].', password : '.$this->details['password']);
-        }catch(\Mchuluq\Laravel\Uac\Exception\FormValidationException $e){
+        }catch(\Mchuluq\Laravel\Uac\Exception\ModelValidationException $e){
             $this->info($e->getMessage());
             foreach($e->messages() as $row){
                 $this->error($row);

@@ -52,7 +52,7 @@ class TaskCommand extends Command{
         try{
             $task->validate('insert',['uri_access','label','description'])->save();
             $this->info('task '.$task->uri_access.' created with ID : '.$task->id);
-        }catch(\Mchuluq\Laravel\Uac\Exception\FormValidationException $e){
+        }catch(\Mchuluq\Laravel\Uac\Exception\ModelValidationException $e){
             $this->info($e->getMessage());
             foreach($e->messages() as $row){
                 $this->error($row);

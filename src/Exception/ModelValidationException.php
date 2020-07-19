@@ -4,13 +4,13 @@ namespace Mchuluq\Laravel\Uac\Exception;
 
 use \Exception;	
 
-class FormValidationException extends Exception{	
+class ModelValidationException extends Exception{	
 
     protected $details = [];	
 
     public function __construct($message, $details=[]) {	
-        parent::__construct($message, 0);	
-        $this->details = $details;	
+        parent::__construct($message, 0);
+        $this->details = array_merge_recursive($this->details,$details);	
     }	
 
     public function __toString() {	

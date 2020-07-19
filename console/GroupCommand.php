@@ -54,7 +54,7 @@ class GroupCommand extends Command{
             $group->validate('insert')->save();
             $fields = [$group->name,$group->label,$group->description];
             $this->info('user group created : '.implode(' | ',$fields));
-        }catch(\Mchuluq\Laravel\Uac\Exception\FormValidationException $e){
+        }catch(\Mchuluq\Laravel\Uac\Exception\ModelValidationException $e){
             $this->info($e->getMessage());
             foreach($e->messages() as $row){
                 $this->error($row);

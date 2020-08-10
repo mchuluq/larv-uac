@@ -52,11 +52,13 @@ class UacServiceProvider extends ServiceProvider{
             include_once __DIR__.'/../console/GroupCommand.php';
             include_once __DIR__.'/../console/RoleCommand.php';
             include_once __DIR__.'/../console/UserCommand.php';
+            include_once __DIR__.'/../console/UacCommand.php';
             
             $this->commands([
                 Console\GroupCommand::class,
                 Console\RoleCommand::class,
-                Console\UserCommand::class
+                Console\UserCommand::class,
+                Console\UacCommand::class
             ]);
         }
 

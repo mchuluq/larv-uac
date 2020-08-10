@@ -3,7 +3,7 @@
 namespace Mchuluq\Laravel\Uac\Observers;
 
 use Mchuluq\Laravel\Uac\Models\RoleActor;
-use Mchuluq\Laravel\Uac\Models\User;
+use Carbon\Carbon;
 
 use Illuminate\Support\Facades\Cache;
 
@@ -19,6 +19,10 @@ class RoleActorObserver {
     function __construct(){
         $this->cache_driver = config('uac.cache_driver');
         $this->cache_ttl = config('uac.cache_ttl');
+    }
+
+    public function creating(RoleActor $ra){
+        $ra->created_at = Carbon::now();
     }
 
     public function saved(RoleActor $ra){

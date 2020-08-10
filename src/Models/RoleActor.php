@@ -6,8 +6,6 @@ use Mchuluq\Laravel\Uac\Models\BaseModel;
 use Mchuluq\Laravel\Uac\Observers\RoleActorObserver;
 use Mchuluq\Laravel\Uac\Helpers\UacHelperTrait as helper;
 
-use Carbon\Carbon;
-
 class RoleActor extends BaseModel{
 
     use helper;
@@ -18,7 +16,8 @@ class RoleActor extends BaseModel{
         'id',
         'role_name',
         'user_id',
-        'group_name'
+        'group_name',
+        'created_at' 
     );
 
     public $timestamps = false;
@@ -35,12 +34,10 @@ class RoleActor extends BaseModel{
                 foreach ($role as $key=>$r){
                     $data[$key]['role_name'] = $r;
                     $data[$key][$type] = $for;
-                    $data[$key]['created_at'] = Carbon::now();
                 }
             }else{
                 $data[0]['role_name'] = $role;
                 $data[0][$type] = $for;
-                $data[0]['created_at'] = Carbon::now();
             }
         }
         return $this->insert($data);

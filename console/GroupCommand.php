@@ -12,7 +12,7 @@ class GroupCommand extends Command{
 
     use \Mchuluq\Laravel\Uac\Helpers\UacHelperTrait;
     
-    protected $signature = 'uac:group {cmd=create : create | delete | list | role | permission} {group_name?}';
+    protected $signature = 'uac:group {cmd=create : create | list}';
     
     protected $description = 'Manage Group of Users';
     
@@ -32,17 +32,8 @@ class GroupCommand extends Command{
             case 'create':
                 $this->_createGroup();
                 break;
-            case 'delete':
-                $this->_deleteGroup();
-                break;
             case 'list':
                 $this->_listGroup();
-                break;
-            case 'role':
-                $this->_roleGroup();
-                break;
-            case 'permission':
-                $this->_permissionGroup();
                 break;
         }
     }
@@ -97,37 +88,7 @@ class GroupCommand extends Command{
         };
         $this->table($headers, $records);
     }
-    private function _permissionGroup() : void{
-        $group_name = $this->argument('group_name');
-        if(is_null($group_name)){
-            $this->error('group_name option cannot be null');
-        }else{
-            $get = Permission::where('group_name',$group_name)->orderBy('created_at','DESC')->get();
-            $records = array();
-            $headers = ['URI Access', 'Created At'];
-            foreach($get as $key=>$row){
-                $records[$key] = [$row->uri_access,$row->created_at];
-            };
-            $this->info('permission list for group : ',$role_name);
-            $this->table($headers, $records);   
-        }
-    }
-    private function _roleGroup() : void{
-        $group_name = $this->argument('group_name');
-        if(is_null($group_name)){
-            $this->error('group_name option cannot be null');
-        }else{
-            $get = RoleActor::where('group_name',$group_name)->orderBy('created_at','DESC')->get();
-            $records = array();
-            $headers = ['Role', 'Created At'];
-            foreach($get as $key=>$row){
-                $records[$key] = [$row->role_name,$row->created_at];
-            };
-            $this->info('role list for group : ',$group_name);
-            $this->table($headers, $records);   
-        }
-    }
-    
+   
     private function getDetails() : array{
         $this->details['label'] = $this->ask('Label / name (required) ?');
         $this->details['name'] = $this->slugify($this->details['label']);

@@ -3,8 +3,7 @@
 namespace Mchuluq\Laravel\Uac\Observers;
 
 use Mchuluq\Laravel\Uac\Models\AccessData;
-use Mchuluq\Laravel\Uac\Models\User;
-
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Cache;
 
 use Mchuluq\Laravel\Uac\Helpers\UacHelperTrait;
@@ -19,6 +18,10 @@ class AccessDataObserver {
     function __construct(){
         $this->cache_driver = config('uac.cache_driver');
         $this->cache_ttl = config('uac.cache_ttl');
+    }
+
+    public function creating(AccessData $ad){
+        $ad->created_at = Carbon::now();
     }
 
     public function saved(AccessData $ad){

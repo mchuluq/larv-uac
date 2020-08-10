@@ -5,7 +5,6 @@ namespace Mchuluq\Laravel\Uac\Models;
 use Mchuluq\Laravel\Uac\Models\BaseModel;
 use Mchuluq\Laravel\Uac\Observers\AccessDataObserver;
 use Mchuluq\Laravel\Uac\Helpers\UacHelperTrait as helper;
-use Carbon\Carbon;
 
 class AccessData extends BaseModel{
 
@@ -16,8 +15,11 @@ class AccessData extends BaseModel{
     protected $fillable = array(
         'user_id',
         'access_name',
-        'access_type'        
+        'access_type',
+        'created_at'  
     );
+
+    public $timestamps = false;
 
     protected static function boot(){
         parent::boot();
@@ -32,13 +34,11 @@ class AccessData extends BaseModel{
                     $data[$key]['access_name'] = $acc;
                     $data[$key]['access_type'] = $access_type;
                     $data[$key]['user_id'] = $user_id;
-                    $data[$key]['created_at'] = Carbon::now();
                 }
             }else{
                 $data[0]['access_name'] = $access_name;
                 $data[0]['access_type'] = $access_type;
                 $data[0]['user_id'] = $user_id;
-                $data[0]['created_at'] = Carbon::now();
             }
         }
         $this->insert($data);

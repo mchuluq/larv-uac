@@ -51,13 +51,11 @@ class UacServiceProvider extends ServiceProvider{
 
             include_once __DIR__.'/../console/GroupCommand.php';
             include_once __DIR__.'/../console/RoleCommand.php';
-            include_once __DIR__.'/../console/TaskCommand.php';
             include_once __DIR__.'/../console/UserCommand.php';
             
             $this->commands([
                 Console\GroupCommand::class,
                 Console\RoleCommand::class,
-                Console\TaskCommand::class,
                 Console\UserCommand::class
             ]);
         }
@@ -68,8 +66,7 @@ class UacServiceProvider extends ServiceProvider{
             
             // Fields
             __DIR__.'/../fields/groups.php' => app_path('Fields/groups.php'),
-            __DIR__.'/../fields/roles.php' => app_path('Fields/roles.php'),
-            __DIR__.'/../fields/tasks.php' => app_path('Fields/tasks.php'),            
+            __DIR__.'/../fields/roles.php' => app_path('Fields/roles.php'),          
             __DIR__.'/../fields/users.php' => app_path('Fields/users.php'),            
         ], 'larv-uac');
 

@@ -10,7 +10,7 @@ use Illuminate\Support\Str;
 
 use Request;
 use Mchuluq\Laravel\Uac\Helpers\UacHelperTrait as uacHelper;
-use Mchuluq\Laravel\Uac\Models\Task;
+use Mchuluq\Laravel\Uac\Models\Route;
 use Mchuluq\Laravel\Uac\Contracts\UserProvider;
 
 class UacUserProvider extends BaseUserProvider implements UserProvider{
@@ -154,19 +154,14 @@ class UacUserProvider extends BaseUserProvider implements UserProvider{
     }
 
     public function getUserMenu($identifier){
-        $task = new Task();
+        $route = new Route();
         $model = $this->getModelByIdentifier($identifier);
-        return $task->getUserMenu($model->permissions);
+        return $route->getUserMenu($model->permissions);
     }
 
     public function getShortcut($identifier){
-        $task = new Task();
+        $route = new Route();
         $model = $this->getModelByIdentifier($identifier);
-        return $task->getShortcut($model->permissions);
-    }
-    
-    public function getPublicMenu(){
-        $task = new Task();
-        return $task->getPublicMenu();
+        return $route->getShortcut($model->permissions);
     }
 }

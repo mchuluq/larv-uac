@@ -113,11 +113,15 @@ class RoleCommand extends Command{
         }
     }
     private function _listRole() : void{
-        $get = Role::orderBy('created_at','DESC')->get();
+        $get = Role::orderBy('created_at','DESC')->with(['permissions'])->get();
         $records = array();
-        $headers = ['Role Name', 'Label', 'Description'];
+        $headers = ['Role Name', 'Label', 'Description','Permissions'];
         foreach($get as $key=>$row){
-            $records[$key] = [$row->name,$row->label,$row->description];
+            $perms = array();
+            foreach ($row['permissions'] as $perm) {
+                $perms[] = $perm['uri_access'];
+            }
+            $records[$key] = [$row->name,$row->label,$row->description, implode(', ', $perms)];
         };
         $this->table($headers, $records);
     }

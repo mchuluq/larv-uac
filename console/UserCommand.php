@@ -10,7 +10,7 @@ class UserCommand extends Command{
 
     use \Mchuluq\Laravel\Uac\Helpers\UacHelperTrait;
     
-    protected $signature = 'uac:user {cmd=create : register | enable | disable | reset | find} {username?} {group_name?}';
+    protected $signature = 'uac:user {cmd=create : register | reset | setgroup | assignrole | assignpermission | assignaccess} {username?} {group_name?}';
     
     protected $description = 'Manage Users';
     
@@ -30,17 +30,20 @@ class UserCommand extends Command{
             case 'register':
                 $this->_registerUser();
                 break;
-            case 'enable':
-                $this->_changeUserStatus('0');
-                break;
-            case 'disable':
-                $this->_changeUserStatus('1');
-                break;
             case 'reset':
                 $this->_resetUser();
                 break;
-            case 'find':
-                $this->_findUser();
+            case 'setgroup':
+                $this->_setGroup();
+                break;
+            case 'assignrole':
+                $this->_assignRole();
+                break;
+            case 'assignpermission':
+                $this->_assignPermission();
+                break;
+            case 'assignaccess':
+                $this->_assignAccess();
                 break;
         }
     }
@@ -57,25 +60,7 @@ class UserCommand extends Command{
             }
         }
     }
-    private function _changeUserStatus($status='0'){
-        $username = $this->argument('username');
-        if(!is_null($username)){
-            $check = $this->user->where('username',$username)->count();
-            if($check <= 0){
-                $this->error('username '.$check.' not found');
-            }else{
-                if ($this->confirm("Are you sure to change status $username?")) {
-                    $this->user->where('username',$username)->update(['is_disabled'=>$status]);
-                    $this->info('user status changed');
-                }else{
-                    $this->info('action canceled');
-                }
-            }
-        }else{
-            $this->error('username argument required');
-        }
-    }
-    private function _resetUser(){}
+    
     private function _findUser(){
         $username = $this->argument('username');
         if(!is_null($username)){
@@ -89,6 +74,16 @@ class UserCommand extends Command{
             $this->error('username argument required');
         }
     }
+
+    private function _resetUser(){}
+
+    private function _setGroup(){}
+
+    private function _assignRole(){}
+
+    private function _assignPermission(){}
+
+    private function _assignAccess(){}
 
     
     

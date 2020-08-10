@@ -7,7 +7,6 @@ use Illuminate\Support\Facades\DB;
 
 use Mchuluq\Laravel\Uac\Helpers\UacHelperTrait as helper;
 
-use Mchuluq\Laravel\Uac\Models\User;
 use Mchuluq\Laravel\Uac\Models\RoleActor;
 
 use Mchuluq\Laravel\Uac\Observers\PermissionObserver;

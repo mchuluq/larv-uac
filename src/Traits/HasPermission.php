@@ -60,4 +60,18 @@ trait HasPermission {
         }
         return in_array($uri_access,$this->attributes['permissions']);   
     }
+
+    function isHasAlternativePermission($uri_access,$uac){
+        if(!isset($uac['access']) || !isset($this->attributes['permissions'])){
+            return false; 
+        }
+        if(is_array($uac['access'])){
+            foreach($uac['access'] as $acc){
+                if(in_array($acc, $this->attributes['permissions'])){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 }

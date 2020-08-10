@@ -81,11 +81,19 @@ class GroupCommand extends Command{
         }
     }
     private function _listGroup() : void{
-        $get = Group::orderBy('created_at','DESC')->get();
+        $get = Group::orderBy('created_at','DESC')->with(['permissions','roles'])->get();
         $records = array();
-        $headers = ['Name', 'Label', 'Description'];
+        $headers = ['Name', 'Label', 'Description','Roles','Permissions'];
         foreach($get as $key=>$row){
-            $records[$key] = [$row->name,$row->label,$row->description];
+            $roles = array();
+            $perms = array();
+            foreach($row['roles'] as $role){
+                $roles[] = $role['role_name'];
+            }
+            foreach($row['permissions'] as $perm){
+                $perms[] = $perm['uri'];
+            }
+            $records[$key] = [$row->name,$row->label,$row->description,implode(', ',$roles), implode(', ', $perms)];
         };
         $this->table($headers, $records);
     }

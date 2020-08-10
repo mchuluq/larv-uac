@@ -14,11 +14,15 @@ class HasPermission {
 
         $user = Auth::user();
         $route_name = $request->route()->getAction('as');
+        $route_uac = $request->route()->getAction('uac');
+        //dd($route_uac);
         $path_uri = $request->path();
 
         if($user->isHasPermission($path_uri) || $user->isHasPermission($route_name)){
             return $next($request);
-        }else{
+        }else if($user->isHasAlternativePermission($path_uri,$route_uac) || $user->isHasAlternativePermission($route_name,$route_uac)){
+            return $next($request);
+        } else{
             return $this->setAbortResponse($request);
         }
     }

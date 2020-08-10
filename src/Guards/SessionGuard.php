@@ -11,6 +11,7 @@ use Illuminate\Auth\Events\Logout as LogoutEvent;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 
 use Mchuluq\Laravel\Uac\Helpers\UacHelperTrait as uacHelper;
+use Mchuluq\Laravel\Uac\Models\Route;
 
 use Webpatser\Uuid\Uuid;
 
@@ -19,7 +20,6 @@ class SessionGuard extends BaseGuard{
     use uacHelper;
 
     protected $expire;
-
     protected $login_id;
 
     public function __construct($name,UserProvider $provider,Session $session,Request $request = null,$expire = 10080){
@@ -164,12 +164,7 @@ class SessionGuard extends BaseGuard{
         return $menus;
     }
 
-    public function getPublicMenu(){
-        $menus = $this->session->get('public_menu');
-        if(!$menus){
-            $menus = $this->provider->getPublicMenu();
-            $this->session->put('public_menu',$menus);
-        }
-        return $menus;
+    public static function uacRoute(){
+        return new Route();
     }
 }

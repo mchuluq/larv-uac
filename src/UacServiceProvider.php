@@ -4,6 +4,8 @@ namespace Mchuluq\Laravel\Uac;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Collection;
+
 use Mchuluq\Laravel\Uac\Guards\SessionGuard;
 use Mchuluq\Laravel\Uac\Guards\TokenApiGuard;
 
@@ -12,6 +14,14 @@ class UacServiceProvider extends ServiceProvider{
     public function register(){
         $this->mergeConfigFrom(__DIR__.'/../config/config.php', 'uac');
         $this->app->make('Mchuluq\Laravel\Uac\Auth\AccountController');
+
+
+        // register macros
+        Collection::make(glob(__DIR__.'/Macros/*.php'))->mapWithKeys(function ($path) {
+            return [$path => pathinfo($path, PATHINFO_FILENAME)];
+        })->each(function ($macro, $path) {
+            require_once $path;
+        });
     }
 
     public function boot(){

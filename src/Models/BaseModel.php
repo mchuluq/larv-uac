@@ -93,18 +93,6 @@ class BaseModel extends Model {
         }
     }
 
-    public function dropdown(string $id=null,$label=null){
-        $id = ($id) ? $id : $this->primaryKey;
-        $label = (!$label) ? $id : $label;
-        $get = $this->get()->toArray();
-        $lists = [];
-        foreach($get as $row){
-            $val = (is_array($label)) ? implode(' ',array_values(Arr::only($row,$label,null))) : $row[$label];
-            $lists[$row[$id]] = $val;
-        }
-        return $lists;
-    }
-
     public function isDuplicate(){
         $id = $this->primaryKey;
         if(empty($this->uniques)){
@@ -128,5 +116,4 @@ class BaseModel extends Model {
         }
         return $this;
     }
-
 }

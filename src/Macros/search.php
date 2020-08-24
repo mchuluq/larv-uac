@@ -3,6 +3,7 @@
 namespace Mchuluq\Laravel\Uac\Macros;
 
 use Illuminate\Database\Query\Builder;
+use Illuminate\Support\Arr;
 
 Builder::macro('search', function ($attributes, string $searchTerm=null) {
     if($searchTerm){

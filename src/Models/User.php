@@ -45,10 +45,8 @@ class User extends BaseModel implements AuthenticatableContract, CanResetPasswor
 
     protected $hidden = [
         'password',
-        'api_token',
         'email_verified_at',
         'created_at',
-        'updated_at',
         'remember_token',
     ];
 

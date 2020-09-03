@@ -32,6 +32,8 @@ class UserObserver {
     public function saving(User $user){
         if($user->api_token == '1' || $user->api_token == 'yes'){
             $user->api_token = Str::random(100);
+        } elseif($user->api_token == '0' || $user->api_token == 'no') {
+            $user->api_token = null;
         }
         unset($user->roles,$user->permissions,$user->access_data);
     }    

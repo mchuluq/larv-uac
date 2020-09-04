@@ -19,12 +19,12 @@ class Route {
         'access' => []
     );
 
-    public function list(){
+    public function list($visible_only=true){
         $r = LaravelRoute::getRoutes();
         $data = array();
         foreach ($r as $val) {
             if(isset($val->action['uac'])){
-                if($val->action['uac']['visible']){
+                if($val->action['uac']['visible'] || $visible_only==false){
                     $key = $val->uri();
                     $data[$key] = array_merge($this->attr, $val->action['uac']);
                     $data[$key]['uri'] = $key;

@@ -28,7 +28,7 @@ class ReplaceUsersTable extends Migration
             $table->string('group_name',64);
             $table->string('user_code_number',20);
             $table->text('settings')->nullable();
-            $table->string('api_token', 100)->unique();
+            $table->string('api_token', 100)->nullable()->unique();
 
             $table->timestamp('email_verified_at')->nullable();
             $table->timestamps();

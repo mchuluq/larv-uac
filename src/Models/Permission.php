@@ -32,6 +32,9 @@ class Permission extends BaseModel{
 
     function assign($for,$uri_access,$type='user_id'){
         $data = array();
+        if(!$uri_access){
+            return;
+        }
         if(in_array($type,['user_id','group_name','role_name'])){
             if(is_array($uri_access)){
                 foreach ($uri_access as $key=>$uri){

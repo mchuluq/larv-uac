@@ -29,6 +29,9 @@ class RoleActor extends BaseModel{
 
     function assign($for,$role,$type='user_id'){
         $data = array();
+        if (!$role) {
+            return;
+        }
         if(in_array($type,['user_id','group_name'])){
             if(is_array($role)){
                 foreach ($role as $key=>$r){

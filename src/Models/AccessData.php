@@ -28,6 +28,9 @@ class AccessData extends BaseModel{
 
      function assign($user_id,$access_name,$access_type){
         $data = array();
+        if (!$access_name) {
+            return;
+        }
         if(in_array($access_type,$this->getAccessType)){
             if(is_array($access_name)){
                 foreach ($access_name as $key=>$acc){

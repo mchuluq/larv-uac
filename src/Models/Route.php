@@ -27,7 +27,9 @@ class Route {
                 if($val->action['uac']['visible'] || $visible_only==false){
                     $key = $val->uri();
                     $data[$key] = array_merge($this->attr, $val->action['uac']);
-                    $data[$key]['uri'] = $key;
+                    if(!$data[$key]['uri']){
+                        $data[$key]['uri'] = $key;
+                    }
                     $data[$key]['name'] = $val->getName();
                 }                
             };            
@@ -35,11 +37,11 @@ class Route {
         return $data;
     }
 
-    function getUserMenu(array $uri = array()){
+    function getUserMenu(array $routenames = array()){
         $menus = array();
         $list = $this->list();
-        $filtered = Arr::where($list,function($val,$key) use ($uri){
-            return (in_array($val['uri'],$uri));
+        $filtered = Arr::where($list,function($val,$key) use ($routenames){
+            return (in_array($val['name'],$routenames));
         });
         foreach ($filtered as $q) {
             $menus[$q['position']][$q['group']][] = $q;
@@ -47,10 +49,10 @@ class Route {
         return $menus;
     }
 
-    function getShortcut(array $uri = array()){
+    function getShortcut(array $routenames = array()){
         $list = $this->list();
-        $filtered = Arr::where($list, function ($val, $key) use ($uri) {
-            return (in_array($val['uri'], $uri));
+        $filtered = Arr::where($list, function ($val, $key) use ($routenames) {
+            return (in_array($val['name'], $routenames));
         });
         return Arr::where($filtered,function($val) {
             return ($val['quick_access'] == true);

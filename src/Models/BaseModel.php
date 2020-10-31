@@ -34,7 +34,10 @@ class BaseModel extends Model {
         $validator = Validator::make($this->data_to_validate,$this->getValidationRules($this->data_to_validate,$group,$fields));
         $validator->setAttributeNames($this->fieldAttr('label'));
         if ($validator->fails()){
-            throw new ModelValidationException ('Validation failed',$validator->errors()->toArray());
+            throw new ModelValidationException ('Validation failed',[
+                'details' => $validator->errors()->toArray(),
+                'values' => $this->data_to_validate
+            ]);
         }
         return $this;
     }

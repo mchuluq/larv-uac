@@ -7,10 +7,12 @@ use \Exception;
 class ModelValidationException extends Exception{	
 
     protected $details = [];	
+    protected $values = [];	
 
     public function __construct($message, $details=[]) {	
         parent::__construct($message, 0);
-        $this->details = array_merge_recursive($this->details,$details);	
+        $this->details = array_merge_recursive($this->details,$details['details']);	
+        $this->values = $details['values'];	
     }	
 
     public function __toString() {	
@@ -28,5 +30,9 @@ class ModelValidationException extends Exception{
     public function message($key){	
         $items = $this->details->all();	
         return (array_key_exists($key,$items) ? $items[$key] : null);	
-    }	
+    }
+
+    public function getValues(){
+        return $this->values;
+    }
 } 

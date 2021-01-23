@@ -115,7 +115,11 @@ class BaseModel extends Model {
             foreach($this->uniques as $r){
                 $errors[$r] = 'Record with this value is exists';
             }
-            throw new ModelValidationException ('Record exists',$errors);
+            // throw new ModelValidationException ('Record exists',$errors);
+            throw new ModelValidationException ('Validation failed',[
+                'details' => $errors,
+                'values' => $data
+            ]);
         }
         return $this;
     }

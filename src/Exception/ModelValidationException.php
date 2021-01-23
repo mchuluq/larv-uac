@@ -11,7 +11,7 @@ class ModelValidationException extends Exception{
 
     public function __construct($message, $details=[]) {	
         parent::__construct($message, 0);
-        $this->details = array_merge_recursive($this->details,$details['details']);	
+        $this->details = array_merge_recursive($this->details,$details);	
         $this->values = $details['values'];	
     }	
 

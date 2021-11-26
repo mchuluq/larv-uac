@@ -19,9 +19,6 @@
             "role": "Developer"
         }
     ],
-    "require": {
-        "webpatser/laravel-uuid": "3.0"
-    },
     "require-dev": {
         "mockery/mockery": "~1.0"
     },

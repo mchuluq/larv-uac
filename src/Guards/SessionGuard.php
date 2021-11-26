@@ -13,8 +13,6 @@ use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Mchuluq\Laravel\Uac\Helpers\UacHelperTrait as uacHelper;
 use Mchuluq\Laravel\Uac\Models\Route;
 
-use Illuminate\Support\Str;
-
 class SessionGuard extends BaseGuard{
 
     use uacHelper;

@@ -5,15 +5,11 @@ namespace Mchuluq\Laravel\Uac\Guards;
 use Illuminate\Auth\SessionGuard as BaseGuard;
 use Mchuluq\Laravel\Uac\Helpers\UacHelperTrait as uacHelper;
 
-use Webpatser\Uuid\Uuid;
-
 use Illuminate\Auth\GuardHelpers;
 use Illuminate\Auth\TokenGuard as TGuard;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Contracts\Auth\UserProvider;
 use Illuminate\Http\Request;
-
-
 
 class TokenApiGuard extends TGuard{
 

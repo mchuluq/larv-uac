@@ -8,7 +8,7 @@ use Illuminate\Support\Str;
 
 use Mchuluq\Laravel\Uac\Helpers\UacHelperTrait;
 
-use Webpatser\Uuid\Uuid;
+use Illuminate\Support\Str;
 
 class UserObserver {
 
@@ -23,7 +23,7 @@ class UserObserver {
     }
 
     public function creating(User $user){
-        $user->user_id = Uuid::generate()->string;
+        $user->user_id = (string) Str::uuid();
         if($user->api_token == '1' || $user->api_token == 'yes'){
             $user->api_token = Str::random(100);
         }

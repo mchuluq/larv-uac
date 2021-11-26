@@ -13,7 +13,7 @@ use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Mchuluq\Laravel\Uac\Helpers\UacHelperTrait as uacHelper;
 use Mchuluq\Laravel\Uac\Models\Route;
 
-use Webpatser\Uuid\Uuid;
+use Illuminate\Support\Str;
 
 class SessionGuard extends BaseGuard{
 
@@ -81,7 +81,7 @@ class SessionGuard extends BaseGuard{
         
 
     protected function createRememberToken(AuthenticatableContract $user){
-        $guid = Uuid::generate()->string;
+        $guid = (string) Str::uuid();
         $token = $this->generateSelectorValidatorCouple($guid);
         
         $this->provider->purgeRememberTokens($user->getAuthIdentifier(), true);
@@ -89,7 +89,7 @@ class SessionGuard extends BaseGuard{
         return $token;
     }
     protected function createLogin(AuthenticatableContract $user){
-        $guid = Uuid::generate()->string;
+        $guid = (string) Str::uuid();
         $token = $this->generateSelectorValidatorCouple($guid);
 
         $this->provider->purgeRememberTokens($user->getAuthIdentifier(), true);

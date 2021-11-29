@@ -8,8 +8,6 @@ use Illuminate\Support\Str;
 
 use Mchuluq\Laravel\Uac\Helpers\UacHelperTrait;
 
-use Illuminate\Support\Str;
-
 class UserObserver {
 
     use UacHelperTrait;

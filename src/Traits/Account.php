@@ -41,14 +41,17 @@ trait Account {
             'login' => [
                 $this->username() => 'required|string',
                 'password' => 'required|string',
+                'g-recaptcha-response' => 'required|recaptchav3:login,0.6'
             ],
             'reset' =>  [
                 'token' => 'required',
                 'email' => 'required|email',
                 'password' => 'required|confirmed|min:8',
+                'g-recaptcha-response' => 'required|recaptchav3:reset,0.6'
             ],
             'send_email' => [
-                'email' => 'required|email'
+                'email' => 'required|email',
+                'g-recaptcha-response' => 'required|recaptchav3:send_email,0.6'
             ],
             'confirm' => [
                 'password' => 'required|password',

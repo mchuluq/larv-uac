@@ -60,6 +60,8 @@ class SessionGuard extends BaseGuard{
     }
 
     public function login(AuthenticatableContract $user, $remember = false){
+        $this->session->migrate(true);
+
         if ($remember) {
             $token = $this->createRememberToken($user);
             $this->queueRecallerCookie($user, $token);
